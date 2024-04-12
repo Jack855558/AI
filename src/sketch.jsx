@@ -1,8 +1,10 @@
 import Sketch from 'react-p5';
+import { p5Wrapper } from 'react-p5';
 import { useState } from 'react';
 
 
-function Screen() {
+
+function Screen({ setup, draw, windowResized }) {
 
     //Varbiles 
     let canvas;
@@ -104,7 +106,7 @@ function Screen() {
         createInputName(p5);
     }
 
-    return <Sketch setup={setup} draw={draw} />
+    return <P5Wrapper setup={setup} draw={draw} windowResized={windowResized} />
 
 }
 
