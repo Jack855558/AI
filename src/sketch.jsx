@@ -33,7 +33,6 @@ function Screen() {
     }
 
 
-
     function draw(p5) {
         p5.stroke(0, 225, 0);
 
