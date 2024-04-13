@@ -1,5 +1,4 @@
 import Sketch from 'react-p5';
-import { p5Wrapper } from 'react-p5';
 import * as ReactP5 from 'react-p5';
 import { useState } from 'react';
 
@@ -107,7 +106,7 @@ function Screen({ setup, draw, windowResized }) {
         createInputName(p5);
     }
 
-    return <P5Wrapper setup={setup} draw={draw} windowResized={windowResized} />
+    return <Sketch setup={setup} draw={draw} windowResized={windowResized} />
 
 }
 
