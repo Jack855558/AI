@@ -1,6 +1,4 @@
 import Sketch from 'react-p5';
-import * as ReactP5 from 'react-p5';
-import { useState } from 'react';
 
 
 
@@ -12,7 +10,7 @@ function Screen({ setup, draw, windowResized }) {
     let clearButton;
     let saveButton;
     let inputName;
-    let words;
+    // let words;
     let choice;
 
 
@@ -88,7 +86,7 @@ function Screen({ setup, draw, windowResized }) {
 
     function createWords(p5) {
         p5.textSize(50);
-        if (choice == undefined) { p5.text('Choose something to draw, then let A.I. finish it', p5.windowWidth * .1, p5.windowHeight * .1) } else { p5.text(`Begin drawing a ${choice}, then let A.I. finsih it`, p5.windowWidth * .1, p5.windowHeight * .1); }
+        if (choice === undefined) { p5.text('Choose something to draw, then let A.I. finish it', p5.windowWidth * .1, p5.windowHeight * .1) } else { p5.text(`Begin drawing a ${choice}, then let A.I. finsih it`, p5.windowWidth * .1, p5.windowHeight * .1); }
 
     }
 
