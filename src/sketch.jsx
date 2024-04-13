@@ -2,7 +2,7 @@ import Sketch from 'react-p5';
 
 
 
-function Screen({ setup, draw, windowResized }) {
+function Screen() {
 
     //Varbiles 
     let canvas;
