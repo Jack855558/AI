@@ -8,7 +8,6 @@ function Home() {
 
     function setup(p5, canvasParentRef) {
         p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
-        let button = p5.createButton();
 
         //Create 100 dots for the background
         for (let i = 0; i < 100; i++) {
