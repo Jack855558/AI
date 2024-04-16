@@ -1,0 +1,31 @@
+/* Hide default select dropdown arrow */
+.custom-select select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: transparent;
+    background-image: url('https://cdn-icons-png.flaticon.com/512/61/61137.png');
+    background-repeat: no-repeat;
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+/* Style select dropdown on focus */
+.custom-select select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* Style select dropdown options */
+.custom-select select option {
+    background-color: #fff;
+    color: #333;
+}
+
+.custom-select {
+    background-position: absolute;
+    left: 50%;
+    top: 50%;
+}

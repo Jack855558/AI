@@ -1,9 +1,12 @@
 import Sketch from 'react-p5';
-import { Link } from 'react-router-dom';
+import Button from './Button';
+import './Home.css';
 
 function Home() {
 
     let dots = [];
+
+
 
 
     function setup(p5, canvasParentRef) {
@@ -26,9 +29,9 @@ function Home() {
             dots[i].display(p5);
         }
 
-        // Draw square
-        p5.fill(150);
-        p5.rect(p5.width * 0.15, p5.height * 0.25, p5.width * 0.7, p5.height * 0.5);
+        // // Draw square
+        // p5.fill(150);
+        // p5.rect(p5.width * 0.15, p5.height * 0.25, p5.width * 0.7, p5.height * 0.5);
     }
 
     class Dot {
@@ -56,22 +59,16 @@ function Home() {
         }
     }
 
-    function buttonStyle() {
-        return {
-            padding: '10px',
-            fontSize: '16px',
-            position: 'absolute',
-            top: '50%',
-            left: '45%', // middle of the screen
-        };
-    }
+
 
     function textStyle() {
         return {
+
             position: 'absolute',
             top: '30%',
-            left: '24%',
-            fontSize: '58px',
+            left: '11%',
+            fontSize: '50px',
+            color: '#FFFFFF',
         }
     }
 
@@ -79,29 +76,14 @@ function Home() {
         return {
             position: 'absolute',
             top: '60%',
-            left: '24%',
+            left: '20%',
         }
     }
 
     return (<div>
         <Sketch setup={setup} draw={draw} />
-        <Link to="/draw" style={{ ...buttonStyle() }}>
-            <button style={{ ...buttonStyle() }}>Start</button>
-        </Link>
-        <strong style={{ ...textStyle() }}>Chose Something to Draw</strong>
-        <select style={{ ...selectStyle() }}>
-            <option value="Bicycle">Bicycle</option>
-            <option value="Bus">Bus</option>
-            <option value="Cat">Cat</option>
-            <option value="Dog">Dog</option>
-            <option value="Face">Face</option>
-            <option value="Flower">Flower</option>
-            <option value="Helicopter">Helicopter</option>
-            <option value="Sheep">Sheep</option>
-            <option value="Octupus">Octupus</option>
-            <option value="Penguin">Penguin</option>
-            <option value="Pig">Pig</option>
-        </select>
+        <Button />
+        <strong style={{ ...textStyle() }} >Begin Drawing and Let A.I. Finish the Drawing</strong>
     </div>)
 }
 
