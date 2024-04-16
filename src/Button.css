@@ -1,0 +1,31 @@
+/* Button.css */
+
+.Button {
+    /* Your button styles here */
+    background-color: rgba(255, 255, 255, 0.2);
+    /* Lightly transparent white */
+    border: none;
+    color: white;
+    padding: 20px 40px;
+    /* Increase padding for a bigger button */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 35px;
+    /* Increase font size */
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    position: fixed;
+    left: 50%;
+    bottom: 30%;
+    transform: translateX(-50%);
+    border-radius: 20px;
+    /* Add border-radius for a slightly rounded shape */
+}
+
+/* Button hover effect */
+.Button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    /* Lightly transparent white with a bit more opacity */
+}

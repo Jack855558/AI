@@ -63,27 +63,23 @@ function Home() {
 
     function textStyle() {
         return {
-
             position: 'absolute',
             top: '30%',
-            left: '11%',
-            fontSize: '50px',
+            left: '50%', // Center horizontally
+            transform: 'translateX(-50%)', // Center horizontally
+            fontSize: '60px', // Increase font size
             color: '#FFFFFF',
-        }
+            textAlign: 'center', // Center text
+            whiteSpace: 'nowrap', // Prevent text from wrapping to new lines
+        };
     }
 
-    function selectStyle() {
-        return {
-            position: 'absolute',
-            top: '60%',
-            left: '20%',
-        }
-    }
+
 
     return (<div>
         <Sketch setup={setup} draw={draw} />
         <Button />
-        <strong style={{ ...textStyle() }} >Begin Drawing and Let A.I. Finish the Drawing</strong>
+        <strong style={{ ...textStyle() }} className="text-style">Begin Drawing and Let A.I. Finish the Drawing</strong>
     </div>)
 }
 

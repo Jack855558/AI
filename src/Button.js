@@ -18,7 +18,7 @@ function Button() {
 
 
     return (<Link to="/draw" >
-        <button>Start</button>
+        <button className="Button">Start</button>
     </Link>)
 }
 

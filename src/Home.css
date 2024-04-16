@@ -1,0 +1,15 @@
+/* Home.css */
+
+/* Apply styles for iPhones */
+@media only screen and (max-width: 768px) {
+    .text-style {
+        white-space: normal;
+        /* Allow text to wrap to new lines */
+        font-size: 40px;
+        /* Decrease font size for smaller screens */
+        top: 50%;
+        /* Adjust vertical position */
+        transform: translate(-50%, -50%);
+        /* Center vertically */
+    }
+}
