@@ -5,6 +5,7 @@ function Home() {
 
     let dots = [];
 
+
     function setup(p5, canvasParentRef) {
         p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
         button = p5.createButton();
