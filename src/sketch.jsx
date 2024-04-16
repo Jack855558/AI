@@ -14,7 +14,7 @@ function Screen() {
     let choice;
 
 
-    function setup(p5, canvasParentRef) {
+    function setup(p5) {
 
         canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight);
         canvas.position(0, 0);
