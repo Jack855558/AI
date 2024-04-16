@@ -62,8 +62,25 @@ function Home() {
             fontSize: '16px',
             position: 'absolute',
             top: '50%',
-            left: '50%', // middle of the screen
+            left: '45%', // middle of the screen
         };
+    }
+
+    function textStyle() {
+        return {
+            position: 'absolute',
+            top: '30%',
+            left: '24%',
+            fontSize: '58px',
+        }
+    }
+
+    function selectStyle() {
+        return {
+            position: 'absolute',
+            top: '60%',
+            left: '24%',
+        }
     }
 
     return (<div>
@@ -71,6 +88,20 @@ function Home() {
         <Link to="/draw" style={{ ...buttonStyle() }}>
             <button style={{ ...buttonStyle() }}>Start</button>
         </Link>
+        <strong style={{ ...textStyle() }}>Chose Something to Draw</strong>
+        <select style={{ ...selectStyle() }}>
+            <option value="Bicycle">Bicycle</option>
+            <option value="Bus">Bus</option>
+            <option value="Cat">Cat</option>
+            <option value="Dog">Dog</option>
+            <option value="Face">Face</option>
+            <option value="Flower">Flower</option>
+            <option value="Helicopter">Helicopter</option>
+            <option value="Sheep">Sheep</option>
+            <option value="Octupus">Octupus</option>
+            <option value="Penguin">Penguin</option>
+            <option value="Pig">Pig</option>
+        </select>
     </div>)
 }
 
