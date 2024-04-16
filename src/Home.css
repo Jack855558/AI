@@ -5,11 +5,19 @@
     .text-style {
         white-space: normal;
         /* Allow text to wrap to new lines */
-        font-size: 40px;
+        font-size: 30px;
         /* Decrease font size for smaller screens */
         top: 50%;
         /* Adjust vertical position */
         transform: translate(-50%, -50%);
         /* Center vertically */
+    }
+}
+
+/* Apply styles for smaller mobile devices */
+@media only screen and (max-width: 480px) {
+    .text-style {
+        font-size: 20px;
+        /* Further decrease font size for smaller mobile devices */
     }
 }
