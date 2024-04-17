@@ -1,18 +1,17 @@
+import React, { useEffect, useState } from 'react';
 import Sketch from 'react-p5';
 import Button from './Button';
 import './Home.css';
 
 function Home() {
+    const [fontSize, setFontSize] = useState(60); // Initial font size
 
     let dots = [];
-
-
-
 
     function setup(p5, canvasParentRef) {
         p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
 
-        //Create 100 dots for the background
+        // Create 100 dots for the background
         for (let i = 0; i < 100; i++) {
             dots.push(new Dot(p5));
         }
@@ -21,17 +20,11 @@ function Home() {
     function draw(p5) {
         p5.background(30);
 
-
-
-        //update and display each dot
+        // Update and display each dot
         for (let i = 0; i < dots.length; i++) {
             dots[i].update(p5);
             dots[i].display(p5);
         }
-
-        // // Draw square
-        // p5.fill(150);
-        // p5.rect(p5.width * 0.15, p5.height * 0.25, p5.width * 0.7, p5.height * 0.5);
     }
 
     class Dot {
@@ -44,11 +37,11 @@ function Home() {
             this.directionY = p5.random(-1, 1);
         }
         update(p5) {
-            //Move the Dot
+            // Move the Dot
             this.x += this.speed * this.directionX;
             this.y += this.speed * this.directionY;
 
-            //Change direction if the dot reaches the edge
+            // Change direction if the dot reaches the edge
             if (this.x <= 0 || this.x >= p5.windowWidth) { this.directionX *= -1 }
             if (this.y <= 0 || this.y >= p5.windowHeight) { this.directionY *= -1 }
         }
@@ -59,7 +52,15 @@ function Home() {
         }
     }
 
+    useEffect(() => {
+        const handleResize = () => {
+            // Set font size based on screen width
+            setFontSize(Math.min(60, Math.max(30, window.innerWidth / 20)));
+        };
 
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []); // Watch for changes in screen size
 
     function textStyle() {
         return {
@@ -67,20 +68,20 @@ function Home() {
             top: '30%',
             left: '50%', // Center horizontally
             transform: 'translateX(-50%)', // Center horizontally
-            fontSize: '60px', // Increase font size
+            fontSize: `${fontSize}px`, // Dynamic font size
             color: '#FFFFFF',
             textAlign: 'center', // Center text
             whiteSpace: 'nowrap', // Prevent text from wrapping to new lines
         };
     }
 
-
-
-    return (<div>
-        <Sketch setup={setup} draw={draw} />
-        <Button />
-        <strong style={{ ...textStyle() }} className="text-style">Begin Drawing and Let A.I. Finish the Drawing</strong>
-    </div>)
+    return (
+        <div>
+            <Sketch setup={setup} draw={draw} />
+            <Button />
+            <strong style={textStyle()} className="text-style">Begin Drawing and Let A.I. Finish the Drawing</strong>
+        </div>
+    );
 }
 
-export default Home; 
+export default Home;

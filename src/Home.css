@@ -1,23 +1,22 @@
 /* Home.css */
 
-/* Apply styles for iPhones */
+/* Apply styles for smaller screens */
 @media only screen and (max-width: 768px) {
     .text-style {
-        white-space: normal;
-        /* Allow text to wrap to new lines */
         font-size: 30px;
         /* Decrease font size for smaller screens */
-        top: 50%;
-        /* Adjust vertical position */
-        transform: translate(-50%, -50%);
-        /* Center vertically */
-    }
-}
-
-/* Apply styles for smaller mobile devices */
-@media only screen and (max-width: 480px) {
-    .text-style {
-        font-size: 20px;
-        /* Further decrease font size for smaller mobile devices */
+        color: #FFFFFF;
+        text-align: center;
+        /* Center text horizontally */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* Center the text vertically */
+        align-items: center;
+        /* Center the text horizontally */
+        height: 100%;
+        /* Ensure the container takes up the full height */
+        word-wrap: break-word;
+        /* Allow the text to wrap to the next line */
     }
 }
