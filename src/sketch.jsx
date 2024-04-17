@@ -11,7 +11,7 @@ function Screen() {
     // let words;
     let choice;
 
-    let model;
+    // let model;
 
     //let x;
     //let y;
