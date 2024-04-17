@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Sketch from 'react-p5';
 import Button from './Button';
-import './Home.css';
+// import './Home.css';
 
 function Home() {
     const [fontSize, setFontSize] = useState(60); // Initial font size
+    const [textTop, setTextTop] = useState('30%'); // Initial vertical position
 
     let dots = [];
 
@@ -55,18 +56,22 @@ function Home() {
     useEffect(() => {
         const handleResize = () => {
             // Set font size based on screen width
-            setFontSize(Math.min(60, Math.max(30, window.innerWidth / 20)));
+            const newFontSize = Math.min(60, Math.max(30, window.innerWidth / 20));
+            setFontSize(newFontSize);
+            // Adjust the vertical position to keep the text centered
+            const newTop = `${(window.innerHeight - newFontSize) / 2}px`;
+            setTextTop(newTop);
         };
 
         window.addEventListener('resize', handleResize);
-        handleResize(); // Call handleResize once to set initial font size
+        handleResize(); // Call handleResize once to set initial font size and position
         return () => window.removeEventListener('resize', handleResize);
     }, []); // Watch for changes in screen size
 
     function textStyle() {
         return {
             position: 'absolute',
-            top: '30%',
+            top: textTop,
             left: '50%', // Center horizontally
             transform: 'translateX(-50%)', // Center horizontally
             fontSize: `${fontSize}px`, // Dynamic font size
