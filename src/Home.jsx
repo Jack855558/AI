@@ -56,7 +56,7 @@ function Home() {
     useEffect(() => {
         const handleResize = () => {
             // Set font size based on screen width
-            const newFontSize = Math.min(60, Math.max(30, window.innerWidth / 20));
+            const newFontSize = Math.min(60, Math.max(30, window.innerWidth / 30));
             setFontSize(newFontSize);
             // Adjust the vertical position to keep the text centered
             const newTop = `${(window.innerHeight - newFontSize) / 2}px`;
