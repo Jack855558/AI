@@ -59,6 +59,7 @@ function Home() {
         };
 
         window.addEventListener('resize', handleResize);
+        handleResize(); // Call handleResize once to set initial font size
         return () => window.removeEventListener('resize', handleResize);
     }, []); // Watch for changes in screen size
 
