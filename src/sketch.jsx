@@ -11,6 +11,15 @@ function Screen() {
     // let words;
     let choice;
 
+    let model;
+
+    //let x;
+    //let y;
+    // let strokePath;
+    // let previousPen = 'down';
+    let seedStrokes = [];
+    let userStroke;
+
 
     function setup(p5) {
 
@@ -19,28 +28,57 @@ function Screen() {
 
         //background 
 
-        p5.background(39, 68, 113);
+        p5.background(160);
 
+
+        // model = ml5.sketchRNN(choice, modelReady); 
 
         createDrawButton(p5);
         createSaveButton(p5);
-        createWords(p5);
-
-    }
-
-
-    function draw(p5) {
-        p5.stroke(0, 225, 0);
-
-        if (p5.mouseIsPressed === true) {
-            p5.line(p5.mouseX, p5.mouseY, p5.pmouseX, p5.pmouseY);
-        }
 
         console.log(choice);
         createWords(p5);
 
     }
 
+
+    function draw(p5) {
+
+        if (p5.mouseIsPressed) {
+            // Draw line
+            p5.stroke(0);
+            p5.strokeWeight(3.0);
+            p5.line(p5.pmouseX, p5.pmouseY, p5.mouseX, p5.mouseY);
+            // Create a "stroke path" with dx, dy, and pen
+            userStroke = {
+                dx: p5.mouseX - p5.pmouseX,
+                dy: p5.mouseY - p5.pmouseY,
+                pen: 'down'
+            };
+
+            seedStrokes.push(userStroke);
+            console.log(seedStrokes);
+
+        }
+    }
+
+    // function startSketchRNN(){
+    //     //Start where mouse was last pressed
+    //     x = mouseX; 
+    //     y = mouseY; 
+    //     
+    //     .generate(seed, callback)
+    //     model.generate(seedStrokes, gotStrokes); 
+    // }
+
+    // A new stroke path
+    // function gotStroke(err, s) {
+    //     strokePath = s;
+    //  }
+
+    // function modelReady (p5){
+    //     p5.canvas.p5.mouseReleased(startSketchRNN); 
+    // }
 
 
     function createDrawButton(p5) {
@@ -56,8 +94,10 @@ function Screen() {
 
 
     function clearDrawing(p5) {
-        p5.background(225);
+        p5.background(160);
         console.log('Cleared');
+        createWords(p5);
+        seedStrokes = [];
     }
 
     function createWords(p5) {
