@@ -10,8 +10,8 @@ function Screen() {
     let saveButton;
     let viewSaveButton;
     // let words;
-    let choice;
-
+    let choice = 'cat';
+    let sel;
     let model;
     let x;
     let y;
@@ -29,12 +29,20 @@ function Screen() {
 
 
         //background 
-
         p5.background(160);
 
 
-        model = ml5.sketchRNN('cat', modelReady(p5));
+        loadModel(choice, p5);
 
+
+        sel = p5.createSelect();
+        sel.option('cat');
+        sel.option('dog');
+        sel.option('bus');
+        sel.changed(changeSel);
+        sel.style('position:absolute');
+        sel.style('left: 10%');
+        sel.style('top: 30%');
 
 
         createButtons(p5);
@@ -83,6 +91,10 @@ function Screen() {
                 model.generate(gotStroke);
             }
         }
+    }
+
+    function loadModel(name, p5) {
+        model = ml5.sketchRNN(name, modelReady(p5));
     }
 
 
@@ -189,6 +201,9 @@ function Screen() {
 
 
 
+    function changeSel() {
+        choice = sel.value();
+    }
 
 
     function clearDrawing(p5) {
