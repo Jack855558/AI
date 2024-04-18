@@ -1,5 +1,4 @@
 import Sketch from 'react-p5';
-import Style from './styles';
 
 
 function Screen() {
