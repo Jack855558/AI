@@ -1,5 +1,5 @@
 import Sketch from 'react-p5';
-
+import Style from './styles';
 
 
 function Screen() {
@@ -8,6 +8,7 @@ function Screen() {
     let canvas;
     let clearButton;
     let saveButton;
+    let viewSaveButton;
     // let words;
     let choice;
 
@@ -33,8 +34,7 @@ function Screen() {
 
         // model = ml5.sketchRNN(choice, modelReady); 
 
-        createDrawButton(p5);
-        createSaveButton(p5);
+        createButtons(p5);
 
         console.log(choice);
         createWords(p5);
@@ -80,17 +80,87 @@ function Screen() {
     //     p5.canvas.p5.mouseReleased(startSketchRNN); 
     // }
 
+    function setButtonStyles(button, styles) {
+        const buttonElement = button.elt;
+        Object.keys(styles).forEach(style => {
+            buttonElement.style[style] = styles[style];
+        });
+    }
 
-    function createDrawButton(p5) {
-        clearButton = p5.createButton('New Drawing');
-        clearButton.position(p5.windowWidth * .5, p5.windowHeight * .8);
+    function createButtons(p5) {
+        const windowHeightRatio = p5.windowHeight / 100;
+        const windowWidthRatio = p5.windowWidth / 100;
+
+        const buttonHeight = 12 * windowHeightRatio; // Adjusted button height
+        const buttonWidth = 25 * windowWidthRatio; // Adjusted button width
+
+        const buttonSpacing = 5 * windowWidthRatio;
+
+        // Small offset to the right
+        const xOffset = 4 * windowWidthRatio;
+
+        // Function to handle hover effect
+        function handleHover(button) {
+            button.style('background-color', 'rgba(100, 100, 100, 0.75)'); // Change background color on hover
+
+        }
+
+        // Function to handle hover end
+        function handleHoverEnd(button) {
+            button.style('background-color', 'rgba(80, 80, 80, 0.7)'); // Revert background color after hover
+        }
+
+        clearButton = p5.createButton('Clear');
+        clearButton.position(buttonSpacing + xOffset, p5.windowHeight - buttonHeight - 20);
+        setButtonStyles(clearButton, {
+            'background-color': 'rgba(80, 80, 80, 0.7)',
+            'border': 'none',
+            'border-radius': '20px',
+            'color': 'white',
+            'padding': '20px 40px',
+            'font-size': '35px',
+            'width': `${buttonWidth}px`,
+            'height': `${buttonHeight}px`,
+        });
         clearButton.mousePressed(function () { clearDrawing(p5) });
+        clearButton.mouseOver(function () { handleHover(clearButton); }); // Add hover effect
+        clearButton.mouseOut(function () { handleHoverEnd(clearButton); }); // Revert hover effect
+
+        saveButton = p5.createButton('Save');
+        saveButton.position(buttonWidth + 2 * buttonSpacing + xOffset, p5.windowHeight - buttonHeight - 20);
+        setButtonStyles(saveButton, {
+            'background-color': 'rgba(80, 80, 80, 0.7)',
+            'border': 'none',
+            'border-radius': '20px',
+            'color': 'white',
+            'padding': '20px 40px',
+            'font-size': '35px',
+            'width': `${buttonWidth}px`,
+            'height': `${buttonHeight}px`,
+        });
+        saveButton.mouseOver(function () { handleHover(saveButton); }); // Add hover effect
+        saveButton.mouseOut(function () { handleHoverEnd(saveButton); }); // Revert hover effect
+
+        viewSaveButton = p5.createButton('View Saved');
+        viewSaveButton.position(2 * buttonWidth + 3 * buttonSpacing + xOffset, p5.windowHeight - buttonHeight - 20);
+        setButtonStyles(viewSaveButton, {
+            'background-color': 'rgba(80, 80, 80, 0.7)',
+            'border': 'none',
+            'border-radius': '20px',
+            'color': 'white',
+            'padding': '20px 40px',
+            'font-size': '35px',
+            'width': `${buttonWidth}px`,
+            'height': `${buttonHeight}px`,
+        });
+        viewSaveButton.mouseOver(function () { handleHover(viewSaveButton); }); // Add hover effect
+        viewSaveButton.mouseOut(function () { handleHoverEnd(viewSaveButton); }); // Revert hover effect
     }
 
-    function createSaveButton(p5) {
-        saveButton = p5.createButton('Save')
-        saveButton.position(p5.windowWidth * .75, p5.windowHeight * .9);
-    }
+
+
+
+
 
 
     function clearDrawing(p5) {
@@ -109,8 +179,7 @@ function Screen() {
 
     function windowResized(p5) {
         p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
-        createDrawButton(p5);
-        createSaveButton(p5);
+        createButtons(p5);
     }
 
     return <Sketch setup={setup} draw={draw} windowResized={windowResized} />
