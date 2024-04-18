@@ -1,4 +1,5 @@
 import Sketch from 'react-p5';
+import * as ml5 from 'ml5';
 
 
 function Screen() {
@@ -11,27 +12,31 @@ function Screen() {
     // let words;
     let choice;
 
-    // let model;
-
-    //let x;
-    //let y;
-    // let strokePath;
-    // let previousPen = 'down';
+    let model;
+    let x;
+    let y;
+    let strokePath;
+    let previousPen = 'down';
     let seedStrokes = [];
     let userStroke;
+    let mouseReleased;
 
 
-    function setup(p5) {
+    function setup(p5, canvasParentRef) {
 
-        canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight);
+        canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
         canvas.position(0, 0);
+
+
 
         //background 
 
         p5.background(160);
 
 
-        // model = ml5.sketchRNN(choice, modelReady); 
+        model = ml5.sketchRNN('cat', modelReady(p5));
+
+
 
         createButtons(p5);
 
@@ -57,27 +62,52 @@ function Screen() {
 
             seedStrokes.push(userStroke);
             console.log(seedStrokes);
+        }
 
+        // If something new to draw
+        if (strokePath) {
+            // If the pen is down, draw a line
+            if (previousPen == 'down') {
+                p5.stroke(0);
+                p5.strokeWeight(3.0);
+                p5.line(x, y, x + strokePath.dx, y + strokePath.dy);
+            }
+            // Move the pen
+            x += strokePath.dx;
+            y += strokePath.dy;
+            // The pen state actually refers to the next stroke
+            previousPen = strokePath.pen;
+
+            // If the drawing is complete
+            if (strokePath.pen !== 'end') {
+                strokePath = null;
+                model.generate(gotStroke);
+            }
         }
     }
 
-    // function startSketchRNN(){
-    //     //Start where mouse was last pressed
-    //     x = mouseX; 
-    //     y = mouseY; 
-    //     
-    //     .generate(seed, callback)
-    //     model.generate(seedStrokes, gotStrokes); 
-    // }
+
+    function startSketchRNN(p5) {
+        //Start where mouse was last pressed
+        x = p5.mouseX;
+        y = p5.mouseY;
+
+        //.generate(seed, callback)
+        model.generate(seedStrokes, gotStroke);
+    }
 
     // A new stroke path
-    // function gotStroke(err, s) {
-    //     strokePath = s;
-    //  }
+    function gotStroke(err, s) {
+        strokePath = s;
+    }
 
-    // function modelReady (p5){
-    //     p5.canvas.p5.mouseReleased(startSketchRNN); 
-    // }
+    function modelReady(p5) {
+        console.log('Model Ready');
+        canvas.mouseReleased(() => {
+            console.log('Model will Start')
+            startSketchRNN(p5)
+        });
+    }
 
     function setButtonStyles(button, styles) {
         const buttonElement = button.elt;
@@ -167,6 +197,7 @@ function Screen() {
         console.log('Cleared');
         createWords(p5);
         seedStrokes = [];
+        model.reset();
     }
 
     function createWords(p5) {
