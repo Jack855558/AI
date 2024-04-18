@@ -19,7 +19,6 @@ function Screen() {
     let previousPen = 'down';
     let seedStrokes = [];
     let userStroke;
-    let mouseReleased;
 
 
     function setup(p5, canvasParentRef) {
@@ -67,7 +66,7 @@ function Screen() {
         // If something new to draw
         if (strokePath) {
             // If the pen is down, draw a line
-            if (previousPen == 'down') {
+            if (previousPen === 'down') {
                 p5.stroke(0);
                 p5.strokeWeight(3.0);
                 p5.line(x, y, x + strokePath.dx, y + strokePath.dy);
