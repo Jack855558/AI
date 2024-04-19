@@ -9,7 +9,6 @@ function Screen() {
     let clearButton;
     let saveButton;
     // let words;
-    let modelText;
     let choice = 'face';
     let model;
     let x;
@@ -44,7 +43,7 @@ function Screen() {
 
         p5.textSize(28);
         p5.fill(0);
-        modelText = p5.text('Models', p5.windowWidth * .027, p5.windowHeight * .07);
+        p5.text('Models', p5.windowWidth * .027, p5.windowHeight * .07);
     }
 
     function draw(p5) {
@@ -55,7 +54,7 @@ function Screen() {
 
         p5.textSize(28);
         p5.fill(0);
-        modelText = p5.text('Models', p5.windowWidth * .027, p5.windowHeight * .07);
+        p5.text('Models', p5.windowWidth * .027, p5.windowHeight * .07);
 
         if (p5.mouseIsPressed) {
             // Draw line
