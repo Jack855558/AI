@@ -88,7 +88,6 @@ function Screen() {
         model = ml5.sketchRNN(name, modelReady(p5));
     }
 
-
     function startSketchRNN(p5) {
         //Start where mouse was last pressed
         x = p5.mouseX;
