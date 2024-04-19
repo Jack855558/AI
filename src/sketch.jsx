@@ -9,8 +9,8 @@ function Screen() {
     let clearButton;
     let saveButton;
     // let words;
+    let modelText;
     let choice = 'face';
-    let sel;
     let model;
     let x;
     let y;
@@ -20,6 +20,8 @@ function Screen() {
     let userStroke;
     let savedDrawings = [];
 
+    let modelOptions = ['face', 'dog', 'cat', 'pig', 'bus', 'bicycle', 'apple', 'eye', 'flower', 'pencil', 'crab', 'rabbit', 'penguin', 'dolphin', 'helicopter'];
+
     function setup(p5, canvasParentRef) {
 
         canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
@@ -28,24 +30,33 @@ function Screen() {
         // Background 
         p5.background(160);
 
-        loadModel(choice, p5);
+        showModels(p5);
 
-        sel = p5.createSelect();
-        sel.option('cat');
-        sel.option('dog');
-        sel.option('bus');
-        sel.changed(changeSel);
-        sel.style('position:absolute');
-        sel.style('left: 10%');
-        sel.style('top: 30%');
+        loadModel(choice, p5);
 
         createButtons(p5);
 
         console.log(choice);
         createWords(p5);
+
+        p5.fill(200);
+        p5.rect(0, 0, p5.windowWidth * .13, p5.windowHeight);
+
+        p5.textSize(28);
+        p5.fill(0);
+        modelText = p5.text('Models', p5.windowWidth * .027, p5.windowHeight * .07);
     }
 
     function draw(p5) {
+
+
+        p5.fill(200);
+        p5.rect(0, 0, p5.windowWidth * .13, p5.windowHeight);
+
+        p5.textSize(28);
+        p5.fill(0);
+        modelText = p5.text('Models', p5.windowWidth * .027, p5.windowHeight * .07);
+
         if (p5.mouseIsPressed) {
             // Draw line
             p5.stroke(0);
@@ -120,13 +131,13 @@ function Screen() {
         const buttonHeight = 12 * windowHeightRatio; // Adjusted button height
 
         // Calculate button width based on available window width and desired spacing
-        const availableWidth = p5.windowWidth - 4 * windowWidthRatio; // Total width minus margins
+        const availableWidth = p5.windowWidth - 10 * windowWidthRatio; // Total width minus margins
         const buttonWidth = availableWidth / 2 - 7 * windowWidthRatio; // Divide by 2 buttons and subtract spacing
 
-        const buttonSpacing = 5 * windowWidthRatio;
+        const buttonSpacing = 2 * windowWidthRatio;
 
         // Small offset to the right
-        const xOffset = 1.5 * windowWidthRatio;
+        const xOffset = 15 * windowWidthRatio;
 
         // Function to handle hover effect
         function handleHover(button) {
@@ -180,10 +191,6 @@ function Screen() {
         savedDrawings.push(filename);
     }
 
-    function changeSel() {
-        choice = sel.value();
-    }
-
     function clearDrawing(p5) {
         p5.background(160);
         console.log('Cleared');
@@ -196,15 +203,27 @@ function Screen() {
     function createWords(p5) {
         p5.textSize(50);
         if (choice === undefined) {
-            p5.text('Choose something to draw, then let A.I. finish it', p5.windowWidth * .1, p5.windowHeight * .1)
+            p5.text('Choose something to draw, then let A.I. finish it', p5.windowWidth * .2, p5.windowHeight * .1)
         } else {
-            p5.text(`Begin drawing a ${choice}, then let A.I. finish it`, p5.windowWidth * .1, p5.windowHeight * .1);
+            p5.text(`Begin drawing a ${choice}, then let A.I. finish it`, p5.windowWidth * .2, p5.windowHeight * .1);
         }
     }
 
     function windowResized(p5) {
         p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
         createButtons(p5);
+    }
+
+    function handleClickModel() {
+        console.log('A button has been clicked');
+    }
+
+    function showModels(p5) {
+        for (var i = 0; i < modelOptions.length; i++) {
+            let modelButton = p5.createP(modelOptions[i]);
+            modelButton.position(50, 50 + i * 30);
+            modelButton.mousePressed(handleClickModel);
+        }
     }
 
     return <Sketch setup={setup} draw={draw} windowResized={windowResized} />
