@@ -18,12 +18,14 @@ function Screen() {
     let seedStrokes = [];
     let userStroke;
     let savedDrawings = [];
+    let canvasWidth;
 
     let modelOptions = ['face', 'dog', 'cat', 'pig', 'bus', 'bicycle', 'apple', 'eye', 'flower', 'pencil', 'crab', 'rabbit', 'penguin', 'dolphin', 'helicopter'];
 
     function setup(p5, canvasParentRef) {
 
-        canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
+        canvasWidth = p5.windowWidth;
+        canvas = p5.createCanvas(canvasWidth, p5.windowHeight).parent(canvasParentRef);
         canvas.position(0, 0);
 
         // Background 
@@ -39,7 +41,7 @@ function Screen() {
         createWords(p5);
 
         p5.fill(200);
-        p5.rect(0, 0, p5.windowWidth * .13, p5.windowHeight);
+        p5.rect(0, 0, 200, p5.windowHeight);
 
         p5.textSize(28);
         p5.fill(0);
