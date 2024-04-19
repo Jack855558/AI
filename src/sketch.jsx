@@ -19,6 +19,7 @@ function Screen() {
     let seedStrokes = [];
     let userStroke;
     const [savedImages, setSavedImages] = useState([]);
+    const [savedDrawings, setSavedDrawings] = useState([]);
 
     useEffect(() => {
         // Load saved images
