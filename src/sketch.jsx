@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+
 import Sketch from 'react-p5';
 import * as ml5 from 'ml5';
 
+
 function Screen() {
-    // Variables
+
+    //Varbiles 
     let shouldGenerate = false;
     let canvas;
     let clearButton;
     let saveButton;
     let viewSaveButton;
+    // let words;
     let choice = 'cat';
     let sel;
     let model;
@@ -18,25 +21,23 @@ function Screen() {
     let previousPen = 'down';
     let seedStrokes = [];
     let userStroke;
-    const [savedImages, setSavedImages] = useState([]);
-    const [savedDrawings, setSavedDrawings] = useState([]);
+    let savedDrawings = [];
 
-    useEffect(() => {
-        // Load saved images
-        const loadedImages = [];
-        savedDrawings.forEach(filename => {
-            const img = new Image();
-            img.src = filename;
-            loadedImages.push(img);
-        });
-        setSavedImages(loadedImages);
-    }, []);
 
     function setup(p5, canvasParentRef) {
+
         canvas = p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
         canvas.position(0, 0);
+
+
+
+        //background 
         p5.background(160);
+
+
         loadModel(choice, p5);
+
+
         sel = p5.createSelect();
         sel.option('cat');
         sel.option('dog');
@@ -45,11 +46,18 @@ function Screen() {
         sel.style('position:absolute');
         sel.style('left: 10%');
         sel.style('top: 30%');
+
+
         createButtons(p5);
+
+        console.log(choice);
         createWords(p5);
+
     }
 
+
     function draw(p5) {
+
         if (p5.mouseIsPressed) {
             // Draw line
             p5.stroke(0);
@@ -87,6 +95,7 @@ function Screen() {
     function loadModel(name, p5) {
         model = ml5.sketchRNN(name, modelReady(p5));
     }
+
 
     function startSketchRNN(p5) {
         //Start where mouse was last pressed
@@ -199,23 +208,36 @@ function Screen() {
     }
 
     function viewSavedDrawings(p5) {
+        // Clear the screen
         p5.background(160);
-        const gridSize = 200;
-        let xPos = 50;
-        let yPos = 50;
-        savedImages.forEach(img => {
+
+        const gridSize = 200; // Adjust as needed
+        let xPos = 50; // Starting X position
+        let yPos = 50; // Starting Y position
+
+        // Display images in a grid
+        for (var i = 0; i < savedDrawings.length; i++) {
+            // Load each drawing
+            const img = p5.loadImage(savedDrawings[i]);
+
+            // Draw the image at the current position
             p5.image(img, xPos, yPos);
+
+            // Move to the next position
             xPos += gridSize;
+
+            // Check if the next position exceeds canvas width
             if (xPos + gridSize > p5.width) {
-                xPos = 50;
-                yPos += gridSize;
+                xPos = 50; // Reset X position
+                yPos += gridSize; // Move to the next row
             }
-        });
+        }
     }
 
     function changeSel() {
         choice = sel.value();
     }
+
 
     function clearDrawing(p5) {
         p5.background(160);
@@ -223,7 +245,7 @@ function Screen() {
         createWords(p5);
         seedStrokes = [];
         model.reset();
-        shouldGenerate = false;
+        shouldGenerate = false; // Set flag to false when canvas is cleared
     }
 
     function createWords(p5) {
@@ -232,12 +254,14 @@ function Screen() {
 
     }
 
+
     function windowResized(p5) {
         p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
         createButtons(p5);
     }
 
     return <Sketch setup={setup} draw={draw} windowResized={windowResized} />
+
 }
 
 export default Screen;
