@@ -9,7 +9,7 @@ function Screen() {
     let clearButton;
     let saveButton;
     // let words;
-    let choice = 'cat';
+    let choice = 'face';
     let sel;
     let model;
     let x;
