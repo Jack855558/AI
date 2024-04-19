@@ -210,13 +210,27 @@ function Screen() {
         // Clear the screen
         p5.background(160);
 
-        //display images 
-        for (var i = 0; i < savedDrawings.length; i++) {
-            //load each drawing on a grid
-            const img = p5.loadImage(savedDrawings[i]);
-            p5.image(img, x, y);
-        }
+        const gridSize = 200; // Adjust as needed
+        let xPos = 50; // Starting X position
+        let yPos = 50; // Starting Y position
 
+        // Display images in a grid
+        for (var i = 0; i < savedDrawings.length; i++) {
+            // Load each drawing
+            const img = p5.loadImage(savedDrawings[i]);
+
+            // Draw the image at the current position
+            p5.image(img, xPos, yPos);
+
+            // Move to the next position
+            xPos += gridSize;
+
+            // Check if the next position exceeds canvas width
+            if (xPos + gridSize > p5.width) {
+                xPos = 50; // Reset X position
+                yPos += gridSize; // Move to the next row
+            }
+        }
     }
 
     function changeSel() {
