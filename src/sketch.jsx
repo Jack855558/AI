@@ -5,6 +5,7 @@ import * as ml5 from 'ml5';
 function Screen() {
 
     //Varbiles 
+    let shouldGenerate = false;
     let canvas;
     let clearButton;
     let saveButton;
@@ -19,6 +20,7 @@ function Screen() {
     let previousPen = 'down';
     let seedStrokes = [];
     let userStroke;
+    let savedDrawings = [];
 
 
     function setup(p5, canvasParentRef) {
@@ -72,20 +74,16 @@ function Screen() {
         }
 
         // If something new to draw
-        if (strokePath) {
-            // If the pen is down, draw a line
+        if (shouldGenerate && strokePath) {
             if (previousPen === 'down') {
                 p5.stroke(0);
                 p5.strokeWeight(3.0);
                 p5.line(x, y, x + strokePath.dx, y + strokePath.dy);
             }
-            // Move the pen
             x += strokePath.dx;
             y += strokePath.dy;
-            // The pen state actually refers to the next stroke
             previousPen = strokePath.pen;
 
-            // If the drawing is complete
             if (strokePath.pen !== 'end') {
                 strokePath = null;
                 model.generate(gotStroke);
@@ -115,8 +113,9 @@ function Screen() {
     function modelReady(p5) {
         console.log('Model Ready');
         canvas.mouseReleased(() => {
-            console.log('Model will Start')
-            startSketchRNN(p5)
+            console.log('Model will Start');
+            shouldGenerate = true; // Set flag to true when user starts drawing again
+            startSketchRNN(p5);
         });
     }
 
@@ -167,6 +166,7 @@ function Screen() {
         clearButton.mouseOut(function () { handleHoverEnd(clearButton); }); // Revert hover effect
 
         saveButton = p5.createButton('Save');
+        saveButton.mousePressed(function () { saveDrawing(p5) });
         saveButton.position(buttonWidth + 2 * buttonSpacing + xOffset, p5.windowHeight - buttonHeight - 20);
         setButtonStyles(saveButton, {
             'background-color': 'rgba(80, 80, 80, 0.7)',
@@ -182,6 +182,7 @@ function Screen() {
         saveButton.mouseOut(function () { handleHoverEnd(saveButton); }); // Revert hover effect
 
         viewSaveButton = p5.createButton('View Saved');
+        viewSaveButton.mousePressed(function () { viewSavedDrawings(p5) });
         viewSaveButton.position(2 * buttonWidth + 3 * buttonSpacing + xOffset, p5.windowHeight - buttonHeight - 20);
         setButtonStyles(viewSaveButton, {
             'background-color': 'rgba(80, 80, 80, 0.7)',
@@ -197,9 +198,26 @@ function Screen() {
         viewSaveButton.mouseOut(function () { handleHoverEnd(viewSaveButton); }); // Revert hover effect
     }
 
+    function saveDrawing(p5) {
+        const timestamp = Date.now();
+        const filename = `drawing_${timestamp}.png`;
+        p5.saveCanvas(canvas, filename, 'png');
 
+        savedDrawings.push(filename);
+    }
 
+    function viewSavedDrawings(p5) {
+        // Clear the screen
+        p5.background(160);
 
+        //display images 
+        for (var i = 0; i < savedDrawings.length; i++) {
+            //load each drawing on a grid
+            const img = p5.loadImage(savedDrawings[i]);
+            p5.image(img, x, y);
+        }
+
+    }
 
     function changeSel() {
         choice = sel.value();
@@ -212,11 +230,12 @@ function Screen() {
         createWords(p5);
         seedStrokes = [];
         model.reset();
+        shouldGenerate = false; // Set flag to false when canvas is cleared
     }
 
     function createWords(p5) {
         p5.textSize(50);
-        if (choice === undefined) { p5.text('Choose something to draw, then let A.I. finish it', p5.windowWidth * .1, p5.windowHeight * .1) } else { p5.text(`Begin drawing a ${choice}, then let A.I. finsih it`, p5.windowWidth * .1, p5.windowHeight * .1); }
+        if (choice === undefined) { p5.text('Choose something to draw, then let A.I. finish it', p5.windowWidth * .1, p5.windowHeight * .1) } else { p5.text(`Begin drawing a ${choice}, then let A.I. finish it`, p5.windowWidth * .1, p5.windowHeight * .1); }
 
     }
 
