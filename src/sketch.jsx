@@ -20,6 +20,7 @@ function Screen() {
     let savedDrawings = [];
     let canvasWidth;
 
+    //Model Options
     let modelOptions = ['face', 'dog', 'cat', 'pig', 'bus', 'bicycle', 'apple', 'eye', 'flower', 'pencil', 'crab', 'rabbit', 'penguin', 'dolphin', 'helicopter'];
 
     function setup(p5, canvasParentRef) {
