@@ -42,7 +42,7 @@ function Screen() {
         createWords(p5);
 
         p5.fill(200);
-        p5.rect(0, 0, 200, p5.windowHeight);
+        p5.rect(0, 0, p5.windowWidth * .13, p5.windowHeight);
 
         p5.textSize(28);
         p5.fill(0);
