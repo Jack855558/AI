@@ -53,7 +53,6 @@ function Screen() {
 
     function draw(p5) {
 
-
         p5.fill(200);
         p5.rect(0, 0, p5.windowWidth * .13, p5.windowHeight);
 
