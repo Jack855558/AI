@@ -1,7 +1,10 @@
 import Sketch from 'react-p5';
 import * as ml5 from 'ml5';
+import React, { useState } from 'react';
 
 function Screen() {
+
+    const [modelLoaded, setModelLoaded] = useState(false);
 
     // Variables 
     let shouldGenerate = false;
@@ -25,9 +28,12 @@ function Screen() {
 
     function setup(p5, canvasParentRef) {
 
-        canvasWidth = p5.windowWidth;
-        canvas = p5.createCanvas(canvasWidth, p5.windowHeight).parent(canvasParentRef);
-        canvas.position(0, 0);
+        const canvasWidth = p5.windowWidth;
+        const canvasHeight = p5.windowHeight;
+        // Create canvas
+        canvas = p5.createCanvas(canvasWidth, canvasHeight).parent(canvasParentRef);
+        canvas.position(0, 0); // Position canvas at top-left corner
+
 
         // Background 
         p5.background(160);
@@ -47,6 +53,14 @@ function Screen() {
         p5.textSize(28);
         p5.fill(0);
         p5.text('Models', p5.windowWidth * .027, p5.windowHeight * .07);
+
+        if (!modelLoaded) {
+            // Display loading text while model is loading
+            p5.fill(0);
+            p5.textAlign(p5.CENTER);
+            p5.textSize(24);
+            p5.text("Loading model...", p5.width / 2, p5.height / 2);
+        }
     }
 
     function draw(p5) {
@@ -93,7 +107,8 @@ function Screen() {
     }
 
     function loadModel(name, p5) {
-        model = ml5.sketchRNN(name, modelReady(p5));
+        setModelLoaded(false); // Set modelLoaded state to false before loading model
+        model = ml5.sketchRNN(name, () => modelReady(p5));
     }
 
     function startSketchRNN(p5) {
@@ -112,6 +127,7 @@ function Screen() {
 
     function modelReady(p5) {
         console.log('Model Ready');
+        setModelLoaded(true); // Set modelLoaded state to true when model is ready
         canvas.mouseReleased(() => {
             console.log('Model will Start');
             shouldGenerate = true; // Set flag to true when user starts drawing again
@@ -203,6 +219,7 @@ function Screen() {
     }
 
     function createWords(p5) {
+        p5.background(160); // Clear the canvas
         p5.textSize(50);
         if (choice === undefined) {
             p5.text('Choose something to draw, then let A.I. finish it', p5.windowWidth * .2, p5.windowHeight * .1)
@@ -211,20 +228,28 @@ function Screen() {
         }
     }
 
+
     function windowResized(p5) {
         p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
         createButtons(p5);
     }
 
-    function handleClickModel() {
-        console.log('A button has been clicked');
+    function handleClickModel(modelName, p5) {
+        console.log(`A button has been clicked ${modelName}`);
+        choice = modelName;
+        loadModel(choice, p5);
     }
 
     function showModels(p5) {
         for (var i = 0; i < modelOptions.length; i++) {
-            let modelButton = p5.createP(modelOptions[i]);
+            const modelName = modelOptions[i];
+            let modelButton = p5.createP(modelName);
             modelButton.position(50, 50 + i * 30);
-            modelButton.mousePressed(handleClickModel);
+            modelButton.mousePressed(() => {
+                console.log(`Clicked model button: ${modelName}`);
+                handleClickModel(modelName, p5);
+                createWords(p5); // Update the displayed text
+            });
         }
     }
 
