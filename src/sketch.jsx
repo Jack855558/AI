@@ -1,10 +1,7 @@
 import Sketch from 'react-p5';
 import * as ml5 from 'ml5';
-import React, { useState } from 'react';
 
 function Screen() {
-
-    const [modelLoaded, setModelLoaded] = useState(false);
 
     // Variables 
     let shouldGenerate = false;
@@ -52,14 +49,6 @@ function Screen() {
         p5.textSize(28);
         p5.fill(0);
         p5.text('Models', p5.windowWidth * .027, p5.windowHeight * .07);
-
-        if (!modelLoaded) {
-            // Display loading text while model is loading
-            p5.fill(0);
-            p5.textAlign(p5.CENTER);
-            p5.textSize(24);
-            p5.text("Loading model...", p5.width / 2, p5.height / 2);
-        }
     }
 
     function draw(p5) {
@@ -106,7 +95,6 @@ function Screen() {
     }
 
     function loadModel(name, p5) {
-        setModelLoaded(false); // Set modelLoaded state to false before loading model
         model = ml5.sketchRNN(name, () => modelReady(p5));
     }
 
@@ -126,7 +114,6 @@ function Screen() {
 
     function modelReady(p5) {
         console.log('Model Ready');
-        setModelLoaded(true); // Set modelLoaded state to true when model is ready
         canvas.mouseReleased(() => {
             console.log('Model will Start');
             shouldGenerate = true; // Set flag to true when user starts drawing again
