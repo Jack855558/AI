@@ -42,6 +42,11 @@ function Screen() {
         showModels(p5);
         // showSidebar(p5);
 
+        // Display "Loading model" for the first 3 seconds
+        createWords(p5, 'Loading model...');
+        setTimeout(() => {
+            createWords(p5);
+        }, 3000);
     }
 
     function draw(p5) {
@@ -193,13 +198,17 @@ function Screen() {
 
     }
 
-    function createWords(p5) {
+    function createWords(p5, text = '') {
         p5.background(160); // Clear the canvas
         p5.textSize(50);
-        if (choice === undefined) {
-            p5.text('Choose something to draw, then let A.I. finish it', p5.windowWidth * .2, p5.windowHeight * .1)
+        if (text === '') {
+            if (choice === undefined) {
+                p5.text('Choose something to draw, then let A.I. finish it', p5.windowWidth * .2, p5.windowHeight * .1)
+            } else {
+                p5.text(`Begin drawing a ${choice}, then let A.I. finish it`, p5.windowWidth * .2, p5.windowHeight * .1);
+            }
         } else {
-            p5.text(`Begin drawing a ${choice}, then let A.I. finish it`, p5.windowWidth * .2, p5.windowHeight * .1);
+            p5.text(text, p5.windowWidth * .2, p5.windowHeight * .1);
         }
     }
 
