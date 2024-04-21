@@ -31,7 +31,6 @@ function Screen() {
         canvas = p5.createCanvas(canvasWidth, canvasHeight).parent(canvasParentRef);
         canvas.position(0, 0); // Position canvas at top-left corner
 
-
         // Background 
         p5.background(160);
 
@@ -39,7 +38,6 @@ function Screen() {
         createButtons(p5);
         console.log(choice);
         showModels(p5);
-        // showSidebar(p5);
 
         // Display "Loading model" for 1 seconds
         createWords(p5, 'Loading model...');
@@ -279,7 +277,6 @@ function Screen() {
             });
         }
     }
-
 
     return <Sketch setup={setup} draw={draw} windowResized={windowResized} />
 }
