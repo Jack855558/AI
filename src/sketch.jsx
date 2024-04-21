@@ -191,7 +191,7 @@ function Screen() {
         createWords(p5, 'Loading model...');
         setTimeout(() => {
             createWords(p5);
-        }, 250);
+        }, 500);
         seedStrokes = [];
         model.reset();
         shouldGenerate = false; // Set flag to false when canvas is cleared
