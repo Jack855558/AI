@@ -1,5 +1,6 @@
 import Sketch from 'react-p5';
 import * as ml5 from 'ml5';
+import ReactDOM from 'react-dom';
 
 function Screen() {
 
@@ -20,7 +21,7 @@ function Screen() {
     let savedDrawings = [];
 
     //Model Options
-    let modelOptions = ['face', 'dog', 'cat', 'pig', 'bus', 'bicycle', 'apple', 'eye', 'flower', 'pencil', 'crab', 'rabbit', 'penguin', 'dolphin', 'helicopter'];
+    let modelOptions = ['face', 'dog', 'cat', 'pig', 'bus', 'bicycle', 'eye', 'flower', 'crab', 'rabbit', 'penguin', 'dolphin', 'helicopter'];
 
     function setup(p5, canvasParentRef) {
 
@@ -34,31 +35,18 @@ function Screen() {
         // Background 
         p5.background(160);
 
-        showModels(p5);
-
         loadModel(choice, p5);
-
         createButtons(p5);
-
         console.log(choice);
         createWords(p5);
+        showModels(p5);
+        // showSidebar(p5);
 
-        p5.fill(200);
-        p5.rect(0, 0, p5.windowWidth * .13, p5.windowHeight);
-
-        p5.textSize(28);
-        p5.fill(0);
-        p5.text('Models', p5.windowWidth * .027, p5.windowHeight * .07);
     }
 
     function draw(p5) {
 
-        p5.fill(200);
-        p5.rect(0, 0, p5.windowWidth * .13, p5.windowHeight);
 
-        p5.textSize(28);
-        p5.fill(0);
-        p5.text('Models', p5.windowWidth * .027, p5.windowHeight * .07);
 
         if (p5.mouseIsPressed) {
             // Draw line
@@ -201,6 +189,8 @@ function Screen() {
         seedStrokes = [];
         model.reset();
         shouldGenerate = false; // Set flag to false when canvas is cleared
+
+
     }
 
     function createWords(p5) {
@@ -226,9 +216,41 @@ function Screen() {
     }
 
     function showModels(p5) {
-        for (var i = 0; i < modelOptions.length; i++) {
+        const sidebarStyle = {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '13%',
+            height: '100%',
+            backgroundColor: '#ccc',
+            padding: '10px',
+            boxSizing: 'border-box',
+        };
+
+        const headerStyle = {
+            fontSize: '28px',
+            color: '#000',
+            marginBottom: '10px',
+            textAlign: 'center', // Center align the text
+        };
+
+        // Render sidebar
+        const sidebar = (
+            <div style={sidebarStyle}>
+                <div style={headerStyle}>Models</div>
+                {/* Add model buttons here if needed */}
+            </div>
+        );
+
+        const sidebarContainer = document.createElement('div');
+        document.body.appendChild(sidebarContainer);
+
+        ReactDOM.render(sidebar, sidebarContainer);
+
+        // Create model buttons
+        for (let i = 0; i < modelOptions.length; i++) {
             const modelName = modelOptions[i];
-            let modelButton = p5.createP(modelName);
+            const modelButton = p5.createP(modelName);
             modelButton.position(50, 50 + i * 30);
             modelButton.style('color', 'black'); // Set initial color
             modelButton.mouseOver(() => { // Add mouse over event
@@ -245,6 +267,16 @@ function Screen() {
         }
     }
 
+
+
+    // function showSidebar(p5) {
+    //     p5.fill(200);
+    //     p5.rect(0, 0, p5.windowWidth * .13, p5.windowHeight);
+
+    //     p5.textSize(28);
+    //     p5.fill(0);
+    //     p5.text('Models', p5.windowWidth * .027, p5.windowHeight * .07);
+    // }
 
     return <Sketch setup={setup} draw={draw} windowResized={windowResized} />
 }
