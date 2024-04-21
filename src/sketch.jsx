@@ -41,7 +41,7 @@ function Screen() {
         showModels(p5);
         // showSidebar(p5);
 
-        // Display "Loading model" for the first 3 seconds
+        // Display "Loading model" for 1 seconds
         createWords(p5, 'Loading model...');
         setTimeout(() => {
             createWords(p5);
@@ -203,11 +203,9 @@ function Screen() {
         p5.background(160); // Clear the canvas
         p5.textSize(50);
         if (text === '') {
-            if (choice === undefined) {
-                p5.text('Choose something to draw, then let A.I. finish it', p5.windowWidth * .2, p5.windowHeight * .1)
-            } else {
-                p5.text(`Begin drawing a ${choice}, then let A.I. finish it`, p5.windowWidth * .2, p5.windowHeight * .1);
-            }
+            p5.strokeWeight(1);
+            console.log('created Words');
+            p5.text(`Begin drawing a ${choice}, then let A.I. finish it`, p5.windowWidth * .2, p5.windowHeight * .1);
         } else {
             p5.text(text, p5.windowWidth * .2, p5.windowHeight * .1);
         }
@@ -278,21 +276,10 @@ function Screen() {
             modelButton.mousePressed(() => {
                 console.log(`Clicked model button: ${modelName}`);
                 handleClickModel(modelName, p5);
-                // createWords(p5); // Update the displayed text
             });
         }
     }
 
-
-
-    // function showSidebar(p5) {
-    //     p5.fill(200);
-    //     p5.rect(0, 0, p5.windowWidth * .13, p5.windowHeight);
-
-    //     p5.textSize(28);
-    //     p5.fill(0);
-    //     p5.text('Models', p5.windowWidth * .027, p5.windowHeight * .07);
-    // }
 
     return <Sketch setup={setup} draw={draw} windowResized={windowResized} />
 }
