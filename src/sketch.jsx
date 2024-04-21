@@ -230,6 +230,13 @@ function Screen() {
             const modelName = modelOptions[i];
             let modelButton = p5.createP(modelName);
             modelButton.position(50, 50 + i * 30);
+            modelButton.style('color', 'black'); // Set initial color
+            modelButton.mouseOver(() => { // Add mouse over event
+                modelButton.style('color', 'red'); // Change color on hover
+            });
+            modelButton.mouseOut(() => { // Add mouse out event
+                modelButton.style('color', 'black'); // Revert color after hover
+            });
             modelButton.mousePressed(() => {
                 console.log(`Clicked model button: ${modelName}`);
                 handleClickModel(modelName, p5);
@@ -237,6 +244,7 @@ function Screen() {
             });
         }
     }
+
 
     return <Sketch setup={setup} draw={draw} windowResized={windowResized} />
 }
