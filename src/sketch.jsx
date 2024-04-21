@@ -38,7 +38,6 @@ function Screen() {
         loadModel(choice, p5);
         createButtons(p5);
         console.log(choice);
-        createWords(p5);
         showModels(p5);
         // showSidebar(p5);
 
@@ -46,12 +45,10 @@ function Screen() {
         createWords(p5, 'Loading model...');
         setTimeout(() => {
             createWords(p5);
-        }, 3000);
+        }, 1000);
     }
 
     function draw(p5) {
-
-
 
         if (p5.mouseIsPressed) {
             // Draw line
@@ -190,7 +187,11 @@ function Screen() {
     function clearDrawing(p5) {
         p5.background(160);
         console.log('Cleared');
-        createWords(p5);
+        // Display "Loading model" for the first 3 seconds
+        createWords(p5, 'Loading model...');
+        setTimeout(() => {
+            createWords(p5);
+        }, 250);
         seedStrokes = [];
         model.reset();
         shouldGenerate = false; // Set flag to false when canvas is cleared
@@ -221,7 +222,13 @@ function Screen() {
     function handleClickModel(modelName, p5) {
         console.log(`A button has been clicked ${modelName}`);
         choice = modelName;
+        // Display "Loading model" for the first 2 seconds
+        createWords(p5, 'Loading model...');
+        setTimeout(() => {
+            createWords(p5);
+        }, 500);
         loadModel(choice, p5);
+
     }
 
     function showModels(p5) {
@@ -271,7 +278,7 @@ function Screen() {
             modelButton.mousePressed(() => {
                 console.log(`Clicked model button: ${modelName}`);
                 handleClickModel(modelName, p5);
-                createWords(p5); // Update the displayed text
+                // createWords(p5); // Update the displayed text
             });
         }
     }
