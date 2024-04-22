@@ -27,7 +27,7 @@ function Screen() {
     let choice = 'face';
 
     //Model Options
-    let modelOptions = ['face', 'dog', 'cat', 'pig', 'bus', 'bicycle', 'eye', 'flower', 'crab', 'rabbit', 'penguin', 'dolphin', 'helicopter', 'lighthouse', 'owl', 'butterfly', 'pineapple', 'octopus'];
+    let modelOptions = ['face', 'dog', 'cat', 'pig', 'bus', 'eye', 'flower', 'crab', 'rabbit', 'penguin', 'dolphin', 'helicopter', 'lighthouse', 'owl', 'butterfly', 'pineapple', 'octopus'];
 
     function setup(p5, canvasParentRef) {
 
