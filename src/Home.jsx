@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
+
+//Import p5 Libary
 import Sketch from 'react-p5';
+
+//Import Componets
 import Button from './Button';
-// import './Home.css';
+
 
 function Home() {
     const [fontSize, setFontSize] = useState(60); // Initial font size
@@ -30,6 +34,7 @@ function Home() {
 
     class Dot {
         constructor(p5) {
+            //creates the values of a dot
             this.x = p5.random(p5.windowWidth);
             this.y = p5.random(p5.windowHeight);
             this.diameter = p5.random(10, 15);
@@ -47,6 +52,7 @@ function Home() {
             if (this.y <= 0 || this.y >= p5.windowHeight) { this.directionY *= -1 }
         }
         display(p5) {
+            //Creates the dots color and style
             p5.noStroke();
             p5.fill(225, 150);
             p5.ellipse(this.x, this.y, this.diameter);
@@ -63,12 +69,14 @@ function Home() {
             setTextTop(newTop);
         };
 
+        //Watch for event of resized
         window.addEventListener('resize', handleResize);
-        handleResize(); // Call handleResize once to set initial font size and position
+        handleResize();
         return () => window.removeEventListener('resize', handleResize);
-    }, []); // Watch for changes in screen size
+    }, []);
 
     function textStyle() {
+        //Creates style for text
         return {
             position: 'absolute',
             top: textTop,
@@ -82,6 +90,7 @@ function Home() {
     }
 
     return (
+        //Renders P5js sketch and Button Componet
         <div>
             <Sketch setup={setup} draw={draw} />
             <Button />

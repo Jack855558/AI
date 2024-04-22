@@ -4,6 +4,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
+  // Render Componets and set <Home/> to the default -> "/"
   return (
     <div className="App">
       <Router basename={"/AI"}>

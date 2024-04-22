@@ -1,16 +1,19 @@
+//Import Libaries
 import Sketch from 'react-p5';
 import * as ml5 from 'ml5';
 import ReactDOM from 'react-dom';
 
 function Screen() {
 
-    // Variables 
+    // AI should only draw when shouldGenerate = true
     let shouldGenerate = false;
+
+    //Screen Varibles
     let canvas;
     let clearButton;
     let saveButton;
-    // let words;
-    let choice = 'face';
+
+    //ML5 Varibles
     let model;
     let x;
     let y;
@@ -18,25 +21,31 @@ function Screen() {
     let previousPen = 'down';
     let seedStrokes = [];
     let userStroke;
-    let savedDrawings = [];
+
+
+    //Current Model Being Drawn
+    let choice = 'face';
 
     //Model Options
-    let modelOptions = ['face', 'dog', 'cat', 'pig', 'bus', 'bicycle', 'eye', 'flower', 'crab', 'rabbit', 'penguin', 'dolphin', 'helicopter', 'castle', 'lion', 'lighthouse', 'owl', 'butterfly', 'pineapple', 'octopus'];
+    let modelOptions = ['face', 'dog', 'cat', 'pig', 'bus', 'bicycle', 'eye', 'flower', 'crab', 'rabbit', 'penguin', 'dolphin', 'helicopter', 'lighthouse', 'owl', 'butterfly', 'pineapple', 'octopus'];
 
     function setup(p5, canvasParentRef) {
 
+        // Create canvas
         const canvasWidth = p5.windowWidth;
         const canvasHeight = p5.windowHeight;
-        // Create canvas
         canvas = p5.createCanvas(canvasWidth, canvasHeight).parent(canvasParentRef);
         canvas.position(0, 0); // Position canvas at top-left corner
 
-        // Background 
+        //Create Background Color
         p5.background(160);
 
+        //Start Model on Face
         loadModel(choice, p5);
-        createButtons(p5);
         console.log(choice);
+
+        //Draw Screen Elements
+        createButtons(p5);
         showModels(p5);
 
         // Display "Loading model" for 1 seconds
@@ -48,12 +57,11 @@ function Screen() {
 
     function draw(p5) {
 
+        //Draw a line if the mouse is pressed
         if (p5.mouseIsPressed) {
-            // Draw line
             p5.stroke(0);
             p5.strokeWeight(3.0);
             p5.line(p5.pmouseX, p5.pmouseY, p5.mouseX, p5.mouseY);
-            // Create a "stroke path" with dx, dy, and pen
             userStroke = {
                 dx: p5.mouseX - p5.pmouseX,
                 dy: p5.mouseY - p5.pmouseY,
@@ -63,7 +71,7 @@ function Screen() {
             console.log(seedStrokes);
         }
 
-        // If something new to draw
+        // AI checks if there should be a new drawing
         if (shouldGenerate && strokePath) {
             if (previousPen === 'down') {
                 p5.stroke(0);
@@ -81,33 +89,37 @@ function Screen() {
         }
     }
 
+    //Loads Model from ML5 library
     function loadModel(name, p5) {
         model = ml5.sketchRNN(name, () => modelReady(p5));
     }
+
 
     function startSketchRNN(p5) {
         // Start where mouse was last pressed
         x = p5.mouseX;
         y = p5.mouseY;
 
-        // .generate(seed, callback)
+        // .generate(seed, callback) is ml5 function to create a sketch
         model.generate(seedStrokes, gotStroke);
     }
 
-    // A new stroke path
+    // Callback function
     function gotStroke(err, s) {
         strokePath = s;
     }
 
+    //Begins the model when the mouse is released and starts the sketch
     function modelReady(p5) {
         console.log('Model Ready');
         canvas.mouseReleased(() => {
             console.log('Model will Start');
-            shouldGenerate = true; // Set flag to true when user starts drawing again
+            shouldGenerate = true;
             startSketchRNN(p5);
         });
     }
 
+    //Create Style for each of the buttons
     function setButtonStyles(button, styles) {
         const buttonElement = button.elt;
         Object.keys(styles).forEach(style => {
@@ -115,31 +127,34 @@ function Screen() {
         });
     }
 
+    //Create the buttons on screen
     function createButtons(p5) {
+        // Adjusted button height and width
         const windowHeightRatio = p5.windowHeight / 100;
         const windowWidthRatio = p5.windowWidth / 100;
+        const buttonHeight = 12 * windowHeightRatio;
 
-        const buttonHeight = 12 * windowHeightRatio; // Adjusted button height
+        // Total width minus margins
+        const availableWidth = p5.windowWidth - 10 * windowWidthRatio;
 
-        // Calculate button width based on available window width and desired spacing
-        const availableWidth = p5.windowWidth - 10 * windowWidthRatio; // Total width minus margins
-        const buttonWidth = availableWidth / 2 - 7 * windowWidthRatio; // Divide by 2 buttons and subtract spacing
-
+        // Divide by 2 buttons and subtract spacing
+        const buttonWidth = availableWidth / 2 - 7 * windowWidthRatio;
         const buttonSpacing = 2 * windowWidthRatio;
 
         // Small offset to the right
         const xOffset = 15 * windowWidthRatio;
 
-        // Function to handle hover effect
+        // Change button color on hover
         function handleHover(button) {
-            button.style('background-color', 'rgba(100, 100, 100, 0.75)'); // Change background color on hover
+            button.style('background-color', 'rgba(100, 100, 100, 0.75)'); // Change 
         }
 
-        // Function to handle hover end
+        // Function button color back when un-hover
         function handleHoverEnd(button) {
-            button.style('background-color', 'rgba(80, 80, 80, 0.7)'); // Revert background color after hover
+            button.style('background-color', 'rgba(80, 80, 80, 0.7)');
         }
 
+        //Create Clear Button
         clearButton = p5.createButton('Clear');
         clearButton.position(buttonSpacing + xOffset, p5.windowHeight - buttonHeight - 20);
         setButtonStyles(clearButton, {
@@ -152,12 +167,16 @@ function Screen() {
             'width': `${buttonWidth}px`,
             'height': `${buttonHeight}px`,
         });
-        clearButton.mousePressed(function () { clearDrawing(p5) });
-        clearButton.mouseOver(function () { handleHover(clearButton); }); // Add hover effect
-        clearButton.mouseOut(function () { handleHoverEnd(clearButton); }); // Revert hover effect
 
+        //Add function when clear button is clicked
+        clearButton.mousePressed(function () { clearDrawing(p5) });
+
+        //Add Hover for Clear Button
+        clearButton.mouseOver(function () { handleHover(clearButton); });
+        clearButton.mouseOut(function () { handleHoverEnd(clearButton); });
+
+        //Create Save Button
         saveButton = p5.createButton('Save');
-        saveButton.mousePressed(function () { saveDrawing(p5) });
         saveButton.position(buttonWidth + 2 * buttonSpacing + xOffset, p5.windowHeight - buttonHeight - 20);
         setButtonStyles(saveButton, {
             'background-color': 'rgba(80, 80, 80, 0.7)',
@@ -169,27 +188,36 @@ function Screen() {
             'width': `${buttonWidth}px`,
             'height': `${buttonHeight}px`,
         });
-        saveButton.mouseOver(function () { handleHover(saveButton); }); // Add hover effect
-        saveButton.mouseOut(function () { handleHoverEnd(saveButton); }); // Revert hover effect
+
+        //Add Hover for Save Button
+        saveButton.mouseOver(function () { handleHover(saveButton); });
+        saveButton.mouseOut(function () { handleHoverEnd(saveButton); });
+
+        //Create functionality when saveButton is clicked
+        saveButton.mousePressed(function () { saveDrawing(p5) });
     }
-
-
+    //Function for when save button is clicked
     function saveDrawing(p5) {
+        //Save drawing to files with the time
         const timestamp = Date.now();
         const filename = `drawing_${timestamp}.png`;
         p5.saveCanvas(canvas, filename, 'png');
 
-        savedDrawings.push(filename);
     }
 
+    //Function to clear the screen
     function clearDrawing(p5) {
+        //Resets Background Color
         p5.background(160);
         console.log('Cleared');
-        // Display "Loading model" for the first 3 seconds
+
+        // Display "Loading model" for the first 1 seconds
         createWords(p5, 'Loading model...');
         setTimeout(() => {
             createWords(p5);
         }, 500);
+
+        //Reset the ML5 Model
         seedStrokes = [];
         model.reset();
         shouldGenerate = false; // Set flag to false when canvas is cleared
@@ -197,9 +225,14 @@ function Screen() {
 
     }
 
+    //Creates Text at Top
     function createWords(p5, text = '') {
-        p5.background(160); // Clear the canvas
+        //Clears old Text
+        p5.background(160);
+
         p5.textSize(50);
+
+        //If text parameter is empty create "Begin Drawing", else created passed in text
         if (text === '') {
             p5.strokeWeight(1);
             console.log('created Words');
@@ -209,16 +242,20 @@ function Screen() {
         }
     }
 
-
+    //Adjust Screen if resized
     function windowResized(p5) {
         p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
         createButtons(p5);
     }
 
+    //If Clicked New Model on the Side
     function handleClickModel(modelName, p5) {
         console.log(`A button has been clicked ${modelName}`);
+
+        //Changes choice varible to new Model
         choice = modelName;
-        // Display "Loading model" for the first 2 seconds
+
+        // Display "Loading model" for the first 1/2 second
         createWords(p5, 'Loading model...');
         setTimeout(() => {
             createWords(p5);
@@ -227,7 +264,10 @@ function Screen() {
 
     }
 
+    //Creates New Models on the sidebar
     function showModels(p5) {
+
+        //Create Color for sidebar
         const sidebarStyle = {
             position: 'absolute',
             top: 0,
@@ -239,6 +279,7 @@ function Screen() {
             boxSizing: 'border-box',
         };
 
+        //Create Style for Models Text 
         const headerStyle = {
             fontSize: '28px',
             color: '#000',
@@ -250,27 +291,37 @@ function Screen() {
         const sidebar = (
             <div style={sidebarStyle}>
                 <div style={headerStyle}>Models</div>
-                {/* Add model buttons here if needed */}
             </div>
         );
 
+        //Use ReactDOM to render the sidebar
         const sidebarContainer = document.createElement('div');
         document.body.appendChild(sidebarContainer);
-
         ReactDOM.render(sidebar, sidebarContainer);
 
-        // Create model buttons
+        // Create buttons for the models
         for (let i = 0; i < modelOptions.length; i++) {
+            //Traverse through the lists of models and position each one
             const modelName = modelOptions[i];
             const modelButton = p5.createP(modelName);
             modelButton.position(50, 50 + i * 30);
-            modelButton.style('color', 'black'); // Set initial color
-            modelButton.mouseOver(() => { // Add mouse over event
-                modelButton.style('color', 'red'); // Change color on hover
+
+            //Set Color to black
+            modelButton.style('color', 'black');
+
+
+            //Create Hover effect for the models
+            modelButton.mouseOver(() => {
+                //Change Color to red on hover
+                modelButton.style('color', 'red');
             });
-            modelButton.mouseOut(() => { // Add mouse out event
-                modelButton.style('color', 'black'); // Revert color after hover
+
+            modelButton.mouseOut(() => {
+                //Return color to black after hover out
+                modelButton.style('color', 'black');
             });
+
+            //Handles the function for when the model is clicked
             modelButton.mousePressed(() => {
                 console.log(`Clicked model button: ${modelName}`);
                 handleClickModel(modelName, p5);
@@ -278,7 +329,9 @@ function Screen() {
         }
     }
 
+    //Returns Sketch 
     return <Sketch setup={setup} draw={draw} windowResized={windowResized} />
+
 }
 
 export default Screen;
