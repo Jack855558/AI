@@ -215,7 +215,7 @@ function Screen() {
         createWords(p5, 'Loading model...');
         setTimeout(() => {
             createWords(p5);
-        }, 500);
+        }, 1000);
 
         //Reset the ML5 Model
         seedStrokes = [];
@@ -255,11 +255,11 @@ function Screen() {
         //Changes choice varible to new Model
         choice = modelName;
 
-        // Display "Loading model" for the first 1/2 second
+        // Display "Loading model" for the first second
         createWords(p5, 'Loading model...');
         setTimeout(() => {
             createWords(p5);
-        }, 500);
+        }, 1000);
         loadModel(choice, p5);
 
     }
