@@ -2,6 +2,7 @@
 import Sketch from 'react-p5';
 import * as ml5 from 'ml5';
 import ReactDOM from 'react-dom';
+import { google } from 'googleapis';
 
 function Screen() {
 
@@ -21,6 +22,7 @@ function Screen() {
     let previousPen = 'down';
     let seedStrokes = [];
     let userStroke;
+
 
 
     //Current Model Being Drawn
