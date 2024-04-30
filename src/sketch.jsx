@@ -2,9 +2,11 @@
 import Sketch from 'react-p5';
 import * as ml5 from 'ml5';
 import ReactDOM from 'react-dom';
-import { google } from 'googleapis';
+// import { google } from 'googleapis';
 
 function Screen() {
+
+    //Google Drive
 
     // AI should only draw when shouldGenerate = true
     let shouldGenerate = false;
